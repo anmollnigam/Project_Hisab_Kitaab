@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HISAB-KITAB — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* --- Upgraded Modern Branding Styles --- */
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centered for the login screen */
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .brand-logo-wrapper {
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
+  }
+  .brand-name {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: 0.5px;
+    color: #1e1b4b;
+    margin: 0;
+  }
+  .brand-name span {
+    color: #4338ca;
+  }
+</style>
+</head>
+<body class="auth-page">
+  <main class="auth-card">
+    
+    <div class="brand">
+      <div class="brand-logo-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 4V20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 8H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 12H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 16H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="brand-name">HISAB<span>KITAB</span></h1>
+    </div>
+
+    <p class="eyebrow">Simple • Secure • Local</p><p class="auth-tagline">Manage customers, track udhaar and record payments — all in one calm, modern workspace.</p>
+
+    <form id="loginForm" class="auth-form" novalidate>
+      <label for="shopId">Shop ID</label>
+      <input type="text" id="shopId" name="shopId" placeholder="e.g. sharma-general-store" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+
+      <p id="loginError" class="form-error" hidden></p>
+
+      <button type="submit" class="btn btn-primary btn-block"><span>Open dashboard</span><span aria-hidden="true">→</span></button>
+    </form>
+
+    <p class="auth-footnote">Forgot access? Ask your shop admin.</p>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

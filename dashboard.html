@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HISAB-KITAB Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* --- Quick Modal CSS for the Presentation --- */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 1000;
+  }
+  .modal-overlay[hidden] { display: none; }
+  .modal-card {
+    background: #ffffff; padding: 32px; border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%;
+  }
+  .modal-title { font-family: 'Fraunces', serif; color: #4338ca; margin-bottom: 8px; font-size: 1.5rem; }
+  .modal-card p { color: #4b5563; margin-bottom: 24px; }
+
+  /* --- Upgraded Modern Branding Styles --- */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo-wrapper {
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
+  }
+  .brand-name {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+    color: #1e1b4b;
+    margin: 0;
+  }
+  .brand-name span {
+    color: #4338ca;
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 4V20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 8H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 12H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 16H10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">HISAB<span>KITAB</span></span>
+    </div>
+    <div class="topbar-right">
+      <span id="shopNameDisplay" class="shop-name">Shop</span>
+      <button id="logoutBtn" class="btn btn-ghost btn-small">Log out</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="hero-panel">
+      <div>
+        <p class="eyebrow">Your daily ledger</p>
+        <h1>Namaste, <span id="heroShopName">Shop</span> 👋</h1>
+        <p>Keep every customer balance clear and every payment accounted for.</p>
+      </div>
+      <div class="hero-date" id="todayDate"></div>
+    </section>
+
+    <section class="stats-grid" aria-label="Ledger summary">
+      <article class="stat-card">
+        <span class="stat-icon">👥</span>
+        <div>
+          <span class="stat-label">Customers</span>
+          <strong id="statCustomers">0</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon">₹</span>
+        <div>
+          <span class="stat-label">Total outstanding</span>
+          <strong id="statOutstanding">₹0</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon">✓</span>
+        <div>
+          <span class="stat-label">Ledger status</span>
+          <strong>Up to date</strong>
+        </div>
+      </article>
+    </section>
+
+    <div class="content-grid">
+      <section class="card" id="addCustomerCard">
+        <h2 class="card-title">Add a new customer</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="newCustomerName">Name (how you'll remember them)</label>
+            <input type="text" id="newCustomerName" placeholder="e.g. Ramesh bhaiya, doodh wala">
+          </div>
+          <div class="field">
+            <label for="newCustomerPhone">Phone number</label>
+            <input type="tel" id="newCustomerPhone" inputmode="numeric" placeholder="10-digit number" maxlength="10">
+          </div>
+        </div>
+        <p id="addCustomerMsg" class="form-message" hidden></p>
+        <button id="addCustomerBtn" class="btn btn-primary">Add customer</button>
+      </section>
+
+      <section class="card" id="searchCard">
+        <h2 class="card-title">Find a customer</h2>
+        <div class="field-row">
+          <div class="field field-grow">
+            <label for="searchPhone">Phone number</label>
+            <input type="tel" id="searchPhone" inputmode="numeric" placeholder="Enter number to search" maxlength="10">
+          </div>
+        </div>
+        <p id="searchMsg" class="form-message" hidden></p>
+        <button id="searchBtn" class="btn btn-primary">Search</button>
+      </section>
+    </div>
+
+    <section class="card result-card" id="resultCard" hidden>
+      <div class="result-header">
+        <div>
+          <span class="result-label">Customer</span>
+          <p id="resultName" class="result-name">—</p>
+        </div>
+        <button id="newSearchBtn" class="btn btn-ghost btn-small">Search another</button>
+      </div>
+
+      <div class="ledger-lines">
+        <span class="result-label" id="balanceLabel">Total udhaar remaining</span>
+        <p id="resultBalance" class="result-balance">₹0</p>
+      </div>
+
+      <div class="field" style="margin-bottom: 20px;">
+        <label for="transactionReason">Reason for Udhaar / Payment (Optional)</label>
+        <input type="text" id="transactionReason" placeholder="e.g. Groceries, Milk, Cash paid">
+      </div>
+
+      <div class="action-row">
+        <div class="field">
+          <label for="addAmount">Add to udhaar</label>
+          <input type="number" id="addAmount" min="0" placeholder="Amount">
+          <button id="addUdhaarBtn" class="btn btn-add btn-block">+ Add udhaar</button>
+        </div>
+        <div class="field">
+          <label for="subtractAmount">Subtract / payment received</label>
+          <input type="number" id="subtractAmount" min="0" placeholder="Amount">
+          <button id="subtractUdhaarBtn" class="btn btn-payment btn-block">✓ Record payment</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 30px; border-top: 1px solid var(--border-soft); padding-top: 20px;">
+        <span class="result-label" style="display: block; margin-bottom: 12px;">Transaction History</span>
+        <div id="transactionHistoryList" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto; padding-right: 5px;">
+          </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div id="successModal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <h2 class="modal-title">✅ Success!</h2>
+      <p id="modalMessage">Customer has been added to the ledger.</p>
+      <button id="closeModalBtn" class="btn btn-primary btn-block">DONE!</button>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
